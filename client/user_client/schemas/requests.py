@@ -1,28 +1,32 @@
-from typing import List
+from pydantic import BaseModel, Field, RootModel, ConfigDict
 
-from pydantic import BaseModel, Field, RootModel
 
 class BaseUserRequestSchema(BaseModel):
-    id: int = Field(alias="user_id")
+    model_config = ConfigDict(populate_by_name=True)
+    user_id: int = Field(alias="id")
     username: str
-    firstName: str
-    lastName: str
+    first_name: str = Field(alias="firstName")
+    last_name: str =  Field(alias="lastName")
     email: str
     password: str
     phone: str
-    userStatus: int = Field(alias="user_status")
+    user_status: int = Field(alias="userStatus")
 
 
 
 class UserCreateRequestSchema(BaseUserRequestSchema):
-    create_user: BaseUserRequestSchema
+    pass
 
-class UsersCreateRequestSchema(RootModel):
-    create_users: List[UserCreateRequestSchema]
+class UsersCreateRequestSchema(RootModel[list[UserCreateRequestSchema]]):
+    pass
 
 class UserUpdateRequestSchema(BaseUserRequestSchema):
-    update_user: BaseUserRequestSchema
+    pass
 
+
+class LoginUserQueryParams(BaseModel):
+    username: str = Field(min_length=8)
+    password: str = Field(min_length=12)
 
 
 

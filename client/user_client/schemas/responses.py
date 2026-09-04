@@ -1,14 +1,16 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+
 
 class GetUserResponseSchema(BaseModel):
-    id: int = Field(alias="user_id")
+    model_config = ConfigDict(populate_by_name=True)
+    user_id: int = Field(alias="id")
     username: str
-    firstName: str
-    lastName: str
+    first_name: str = Field(alias="firstName")
+    last_name: str = Field(alias="lastName")
     email: str
     password: str
     phone: str
-    userStatus: int = Field(alias="user_status")
+    user_status: int = Field(alias="userStatus")
 
 class BaseUserResponseSchema(BaseModel):
     code: int
