@@ -4,10 +4,11 @@ from httpx import Response, QueryParams, request
 
 from base_api_method import BaseApiMethod
 from client.user_client.schemas.requests import BaseUserRequestSchema, UserUpdateRequestSchema, \
-    UsersCreateRequestSchema, UserCreateRequestSchema
+    UsersCreateRequestSchema, UserCreateRequestSchema, LoginUserQueryParams, PlaceAnOrderForAPet
 from client.user_client.schemas.responses import BaseUserResponseSchema, GetUserResponseSchema, \
     UserUpdateResponseSchema, \
-    DeleteUserResponseSchema, UserCreateResponseSchema, UsersCreateResponseSchema, UserLogoutResponseSchema
+    DeleteUserResponseSchema, UserCreateResponseSchema, UsersCreateResponseSchema, UserLogoutResponseSchema, \
+    BaseStoreResponseSchema
 
 
 class UserClient(BaseApiMethod):
@@ -20,6 +21,17 @@ class UserClient(BaseApiMethod):
         return self.post(
             endpoint="/v2/user",
             json=request.model_dump(mode="json", by_alias=True, exclude_none=True)
+        )
+
+    def login_user_endpoint(
+            self,
+            request: LoginUserQueryParams,
+    ) -> Response:
+        return self.get(
+            endpoint="/v2/user",
+            params=QueryParams(
+                request.model_dump()
+            )
         )
 
     def create_group_users_endpoint(

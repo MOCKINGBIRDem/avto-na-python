@@ -1,3 +1,5 @@
+from _pydatetime import datetime
+
 from pydantic import BaseModel, Field, RootModel, ConfigDict
 
 
@@ -27,6 +29,18 @@ class UserUpdateRequestSchema(BaseUserRequestSchema):
 class LoginUserQueryParams(BaseModel):
     username: str = Field(min_length=8)
     password: str = Field(min_length=12)
+
+
+class PlaceAnOrderForAPet(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    order_id: int = Field(alias="id")
+    pet_id: int = Field(alias="petId")
+    quantity: int
+    ship_date: datetime = Field(alias="shipDate")
+    status: str
+    complete: bool
+
+
 
 
 

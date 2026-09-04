@@ -1,3 +1,5 @@
+from _pydatetime import datetime
+
 from pydantic import BaseModel, Field, ConfigDict
 
 
@@ -31,5 +33,36 @@ class UserLogoutResponseSchema(BaseUserResponseSchema):
 
 class DeleteUserResponseSchema(BaseUserResponseSchema):
     delete_user_response: BaseUserResponseSchema
+
+class GetInventoryResponseSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    available: int
+    pending: int
+    sold: int
+
+class BaseStoreResponseSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    order_id: int = Field(alias="id")
+    pet_id: int = Field(alias="petId")
+    quantity: int
+    ship_date: datetime = Field(alias="shipDate")
+    status: str
+    complete: bool
+
+class ReturnPetResponseSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+    additional_prop1: int = Field(alias="additionalProp1")
+    additional_prop2: int = Field(alias="additionalProp2")
+    additional_prop3: int = Field(alias="additionalProp3")
+
+class FindOrderResponseSchema(BaseStoreResponseSchema):
+    pass
+
+class DeleteOrderResponseSchema(BaseStoreResponseSchema):
+    code: int
+    type: str
+    message: str
+
+
 
 
